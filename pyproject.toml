@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "autort-swarms"
-version = "0.0.1"
+version = "0.0.3"
 description = "AutoRT - Pytorch"
 license = "MIT"
 authors = ["Kye Gomez <kye@apac.ai>"]
@@ -30,6 +30,7 @@ packages = [
 python = "^3.6"
 swarms = "*"
 zetascale = "*"
+
 
 
 

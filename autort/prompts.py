@@ -62,7 +62,9 @@ Safety Measures: Avoid direct confrontation and maintain a safe distance from an
 """
 
 
-def FOUNDATIONAL_RULES_RPOMPT(guidance: str):
+def FOUNDATIONAL_RULES_RPOMPT(
+    guidance: str = "Do not interact with humans or animals.",
+):
     FOUNDATIONAL_RULES = f"""
     The following are rules you must follow to successfully fulfill your purpose 
     of automating tasks. These rules are divided into four categories: foundational,
@@ -90,3 +92,52 @@ def FOUNDATIONAL_RULES_RPOMPT(guidance: str):
     G1. The human command, which the robot should follow if given: {guidance}
     """
     return FOUNDATIONAL_RULES
+
+
+def FUSED_SYSTEM_PROMPT_WITH_SOP(guidance: str, sop: str):
+    # Fused together the rules and the SOP
+    return FOUNDATIONAL_RULES_RPOMPT(guidance) + sop
+
+
+FILTER_TASKS_SOP_PROMPT = """
+
+
+This SOP is designed to guide the language model in generating and categorizing tasks for robotic execution. 
+The tasks are evaluated based on their complexity and the necessity of human assistance. 
+The system aims to autonomously filter and rank tasks, identifying which can be 
+performed independently by the robot and which require human intervention.
+
+Instruction Format:
+Each task should be formatted as follows:
+
+[Step][Task Name][Human Needed: Yes/No]
+Process:
+
+Task Generation: The model will generate a list of potential tasks for the robot.
+Self-Reflection Filtering: Each task is evaluated for feasibility and safety. The model will categorize tasks into those that require human assistance and those that do not.
+Task Sampling: A valid task is selected from the filtered list for the robot to attempt.
+Execution and Review: The robot attempts the task. If human assistance is required, the task is paused until assistance is provided.
+
+
+
+########  Examples #########
+
+[Step][1][Visual Inspection of Machinery][Human Needed: No]
+
+Task: The robot will inspect machinery for any signs of wear or damage using its visual sensors.
+Self-Reflection Filter: The task is within the robot's capability and does not require human intervention.
+[Step][2][Precision Welding of Components][Human Needed: Yes]
+
+Task: Perform precision welding on specific components in the assembly line.
+Self-Reflection Filter: Task requires human guidance for setup and quality control, due to the high precision and risk involved.
+[Step][3][Inventory Stocktaking][Human Needed: No]
+
+Task: Count and organize inventory in the warehouse.
+Self-Reflection Filter: The task is straightforward and can be autonomously completed by the robot.
+[Step][4][Complex Circuitry Repair][Human Needed: Yes]
+
+Task: Repair complex circuitry in electronic equipment.
+Self-Reflection Filter: Due to the intricate nature of the task, human expertise is required for guidance and verification.
+
+
+"""
