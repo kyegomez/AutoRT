@@ -1,0 +1,10 @@
+{
+    "summary": "This script searches for Python files in the \"tests\" directory and renames them by appending 'test_' at the beginning if their original name doesn't start with 'test_'.",
+    "details": [
+        {
+            "comment": "This script searches for Python files in the \"tests\" directory and renames them by appending 'test_' at the beginning if their original name doesn't start with 'test_'.",
+            "location": "\"/media/root/Prima/works/AutoRT/docs/src/scripts/test_name.sh\":0-7",
+            "content": "find ./tests -name \"*.py\" -type f | while read file\ndo\n  filename=$(basename \"$file\")\n  dir=$(dirname \"$file\")\n  if [[ $filename != test_* ]]; then\n    mv \"$file\" \"$dir/test_$filename\"\n  fi\ndone"
+        }
+    ]
+}

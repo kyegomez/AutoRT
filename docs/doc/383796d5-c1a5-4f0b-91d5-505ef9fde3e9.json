@@ -1,0 +1,10 @@
+{
+    "summary": "This Bash script checks if it's inside a Git repo, fetches open PRs, and merges them using \"gh pr merge\" command from GitHub CLI. It handles error messages for failed merges and notifies the completion of processing.",
+    "details": [
+        {
+            "comment": "This Bash script checks if it's inside a Git repo, fetches open PRs, and merges them using \"gh pr merge\" command from GitHub CLI. It handles error messages for failed merges and notifies the completion of processing.",
+            "location": "\"/media/root/Prima/works/AutoRT/docs/src/scripts/merge_all_prs.sh\":0-32",
+            "content": "#!/bin/bash\n# Check if we are inside a Git repository\nif ! git rev-parse --git-dir > /dev/null 2>&1; then\n    echo \"Error: Must be run inside a Git repository.\"\n    exit 1\nfi\n# Fetch all open pull requests\necho \"Fetching open PRs...\"\nprs=$(gh pr list --state open --json number --jq '.[].number')\n# Check if there are PRs to merge\nif [ -z \"$prs\" ]; then\n    echo \"No open PRs to merge.\"\n    exit 0\nfi\necho \"Found PRs: $prs\"\n# Loop through each pull request number and merge it\nfor pr in $prs; do\n    echo \"Attempting to merge PR #$pr\"\n    merge_output=$(gh pr merge $pr --auto --merge)\n    merge_status=$?\n    if [ $merge_status -ne 0 ]; then\n        echo \"Failed to merge PR #$pr. Error: $merge_output\"\n    else\n        echo \"Successfully merged PR #$pr\"\n    fi\ndone\necho \"Processing complete.\""
+        }
+    ]
+}

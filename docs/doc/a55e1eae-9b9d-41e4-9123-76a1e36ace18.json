@@ -1,0 +1,10 @@
+{
+    "summary": "The code imports necessary modules and defines the __all__ list which includes all exported items from the module. This is a Python file that sets up the AutoRT class, as well as importing prompts for various tasks and visualizations.",
+    "details": [
+        {
+            "comment": "The code imports necessary modules and defines the __all__ list which includes all exported items from the module. This is a Python file that sets up the AutoRT class, as well as importing prompts for various tasks and visualizations.",
+            "location": "\"/media/root/Prima/works/AutoRT/docs/src/autort/__init__.py\":0-15",
+            "content": "from autort.main import AutoRT\nfrom autort.prompts import (\n    VISUALIZE_OBJECT_PROMPT,\n    GENERATE_TASKS_PROMPT,\n    FUSED_SYSTEM_PROMPT_WITH_SOP,\n    FILTER_TASKS_SOP_PROMPT,\n)\n__all__ = [\n    \"AutoRT\",\n    \"VISUALIZE_OBJECT_PROMPT\",\n    \"GENERATE_TASKS_PROMPT\",\n    \"FUSED_SYSTEM_PROMPT_WITH_SOP\",\n    \"FILTER_TASKS_SOP_PROMPT\",\n]"
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "summary": "This code snippet is a `pyproject.toml` configuration file for the AutoRT project, specifying build system requirements and dependencies like poetry-core and python version, along with information about the project and tool versions/configurations for various packages.",
+    "details": [
+        {
+            "comment": "This code snippet is a `pyproject.toml` configuration file for the AutoRT project, specifying build system requirements and dependencies like poetry-core and python version. It also includes information about the project such as name, version, description, authors, license, homepage, repository, keywords, and classifiers. The packages section lists the included packages, and the dependencies section lists required packages for linting.",
+            "location": "\"/media/root/Prima/works/AutoRT/docs/src/pyproject.toml\":0-38",
+            "content": "[build-system]\nrequires = [\"poetry-core>=1.0.0\"]\nbuild-backend = \"poetry.core.masonry.api\"\n[tool.poetry]\nname = \"autort-swarms\"\nversion = \"0.0.3\"\ndescription = \"AutoRT - Pytorch\"\nlicense = \"MIT\"\nauthors = [\"Kye Gomez <kye@apac.ai>\"]\nhomepage = \"https://github.com/kyegomez/AutoRT\"\ndocumentation = \"https://github.com/kyegomez/AutoRT\"  # Add this if you have documentation.\nreadme = \"README.md\"  # Assuming you have a README.md\nrepository = \"https://github.com/kyegomez/AutoRT\"\nkeywords = [\"artificial intelligence\", \"deep learning\", \"optimizers\", \"Prompt Engineering\"]\nclassifiers = [\n    \"Development Status :: 4 - Beta\",\n    \"Intended Audience :: Developers\",\n    \"Topic :: Scientific/Engineering :: Artificial Intelligence\",\n    \"License :: OSI Approved :: MIT License\",\n    \"Programming Language :: Python :: 3.9\"\n]\npackages = [\n    { include = \"autort\" },\n    { include = \"autort/**/*.py\" },\n]\n[tool.poetry.dependencies]\npython = \"^3.6\"\nswarms = \"*\"\nzetascale = \"*\"\n[tool.poetry.group.lint.dependencies]\nruff = \"^0.1.6\"\ntypes-toml = \"^0.10.8.1\""
+        },
+        {
+            "comment": "This code specifies the versions and configurations for various tools in the AutoRT project. It sets dependencies for types-redis, types-pytz, black, types-chardet, and mypy-protobuf. It also configures autopep8, ruff, and black to enforce line length and other formatting rules.",
+            "location": "\"/media/root/Prima/works/AutoRT/docs/src/pyproject.toml\":39-60",
+            "content": "types-redis = \"^4.3.21.6\"\ntypes-pytz = \"^2023.3.0.0\"\nblack = \"^23.1.0\"\ntypes-chardet = \"^5.0.4.6\"\nmypy-protobuf = \"^3.0.0\"\n[tool.autopep8]\nmax_line_length = 80\nignore = \"E501,W6\"  # or [\"E501\", \"W6\"]\nin-place = true\nrecursive = true\naggressive = 3\n[tool.ruff]\nline-length = 70\n[tool.black]\nline-length = 70\ntarget-version = ['py38']\npreview = true"
+        }
+    ]
+}
