@@ -1,4 +1,4 @@
-from autort.main import AutoRT
+from autort.main import AutoRTAgent, AutoRTSwarm
 
 from autort.prompts import (
     VISUALIZE_OBJECT_PROMPT,
@@ -8,7 +8,8 @@ from autort.prompts import (
 )
 
 __all__ = [
-    "AutoRT",
+    "AutoRTAgent",
+    "AutoRTSwarm",
     "VISUALIZE_OBJECT_PROMPT",
     "GENERATE_TASKS_PROMPT",
     "FUSED_SYSTEM_PROMPT_WITH_SOP",

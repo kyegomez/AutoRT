@@ -14,98 +14,60 @@ This project will be implemented using Swarms, for the various llms and use the 
 
 ## Usage
 
-### Setting Up AutoRT
 
-1. Load your environment variables:
-
+### AutoRTAgent
 ```python
-from dotenv import load_dotenv
-load_dotenv()
-```
+# Import necessary modules
+import os
+from autort import AutoRTSwarm, AutoRTAgent
 
-2. Instantiate the AutoRT class:
-
-```python
-from autort import AutoRT
-
-# Load API keys from environment
+# Set the OpenAI API key
 openai_api_key = os.getenv("OPENAI_API_KEY")
-gemini_api_key = os.getenv("GEMINI_API_KEY")
 
-# Instantiate AutoRT with the necessary API keys
-autort_system = AutoRT(openai_api_key)
-```
+# Define a list of AutoRTAgent instances
+agents = [
+    AutoRTAgent(openai_api_key, max_tokens=1000),
+    AutoRTAgent(openai_api_key, max_tokens=1000),
+]
 
-### Running AutoRT
+# Create an instance of AutoRTSwarm with the agents and datastore
+autort_swarm = AutoRTSwarm(agents)
 
-With AutoRT set up, you can now run the system by providing it with text and image inputs:
-
-```python
-text_input = "There is a bottle on the table."
-image_url = "https://i.imgur.com/2qY9f8U.png"
-
-# Run the AutoRT system
-result = autort_system.run(text_input, image_url)
-```
-
-### Customizing AutoRT
-
-AutoRT allows for extensive customization of its components. Here’s how you can do it:
-
-#### Customizing Language Model Prompts
-AutoRT uses predefined prompts to guide the language models. To customize these prompts:
-
-```python
-from autort.prompts import FUSED_SYSTEM_PROMPT_WITH_SOP
-
-custom_visualization_prompt = "Custom SOP for visualizing objects."
-autort_system.system_prompt_vllm = FUSED_SYSTEM_PROMPT_WITH_SOP(
-    guidance=autort_system.guidance_vllm,
-    sop=custom_visualization_prompt,
+# Run the AutoRTSwarm with the given inputs
+autort_swarm.run(
+    "There is a bottle on the table.",
+    "https://i.imgur.com/2qY9f8U.png",
 )
 ```
 
-#### Customizing Task Generation
-You can alter the guidance for task generation to focus on specific types of tasks:
 
+### AutoRTSwarm
 ```python
-custom_task_generation_guidance = "Generate cleaning tasks for the robot."
-autort_system.guidance_llm = custom_task_generation_guidance
+# Import necessary modules
+import os
+from autort import AutoRTSwarm, AutoRTAgent
+
+# Set the OpenAI API key
+openai_api_key = os.getenv("OPENAI_API_KEY")
+
+# Define a list of AutoRTAgent instances
+agents = [
+    AutoRTAgent(openai_api_key, max_tokens=1000),
+    AutoRTAgent(openai_api_key, max_tokens=1000),
+]
+
+# Create an instance of AutoRTSwarm with the agents and datastore
+autort_swarm = AutoRTSwarm(agents)
+
+# Run the AutoRTSwarm with the given inputs
+autort_swarm.run(
+    "There is a bottle on the table.",
+    "https://i.imgur.com/2qY9f8U.png",
+)
 ```
-
-#### Customizing Task Ranking
-To modify the criteria for task ranking:
-
-```python
-custom_ranking_guidance = "Rank tasks based on safety and duration."
-autort_system.guidance_rank = custom_ranking_guidance
-```
-
-#### Customizing the Robot Model
-AutoRT can be tailored to work with different robot models by providing a custom callable:
-
-```python
-def custom_robot_model(task_descriptions, image):
-    # Custom logic to execute tasks
-    pass
-
-autort_system.robot_model = custom_robot_model
-```
-
-### Running Customized AutoRT
-After customization, invoke the `run` method with the new parameters:
-
-```python
-# Run the customized AutoRT system
-custom_result = autort_system.run(text_input, image_url)
-```
-
-### Conclusion
-AutoRT offers a flexible and powerful interface to bridge the gap between AI language understanding and robotic task execution. By customizing its components, you can tailor the system to a wide range of applications, from domestic robots to industrial automation systems. With this tutorial, you're now equipped to implement and customize AutoRT for your specific needs.
-
 
 ## Citation
-```bibtext
+```bibtex
 @inproceedings{
     anonymous2023autort,
     title={Auto{RT}: Embodied Foundation Models for Large Scale Orchestration of Robotic Agents},
