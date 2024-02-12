@@ -16,6 +16,7 @@ This project will be implemented using Swarms, for the various llms and use the 
 
 
 ### AutoRTAgent
+A single AutoRT agent that: analyzes a scene using visual COT -> generate tasks -> filter tasks -> execute it with a robotic transformer.
 ```python
 # Import necessary modules
 import os
@@ -42,6 +43,7 @@ autort_swarm.run(
 
 
 ### AutoRTSwarm
+A team of AutoRT agents where you can plug in and play any number of `AutoRTAgents` with customization. First, the task will be routed to each agent and then all of their outputs will be saved.
 ```python
 # Import necessary modules
 import os
