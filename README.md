@@ -88,3 +88,8 @@ MIT
 
 
 
+# Todo
+- [ ] Implement a run method into `AutoRTSwarm` that runs all the agents with APIs.
+- [ ] Make it able to send commands to a certain agent using the swarm network.
+- [ ] Send a task to all agents in the swarm network
+- [ ] 

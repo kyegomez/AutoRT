@@ -1,3 +1,4 @@
+import json
 from typing import Callable, List, Any
 
 from swarms import (
@@ -168,13 +169,18 @@ class AutoRTSwarm:
         self,
         agents: List[AutoRTAgent],
         datastore: Any = None,
+        autosave: bool = True,
         *args,
         **kwargs,
     ):
         self.agents = agents
         self.datastore = datastore
+        self.autosave = autosave
         self.conversation = Conversation(
             time_enabled=True,
+            save_filepath="autort_conversation.json",
+            *args,
+            **kwargs,
         )
 
         # Swarm Network
@@ -195,6 +201,23 @@ class AutoRTSwarm:
         Returns:
             List: A list of results from running each agent.
         """
-        return self.network.run_many_agents(
-            text, img, *args, **kwargs
-        )
+        out = self.network.run_many_agents(text, img, *args, **kwargs)
+
+        if self.autosave:
+            self.conversation.save_to_json(
+                self.conversation.save_filepath, out
+            )
+
+        return out
+
+    def save_to_json(self, filename: str, content: List):
+        # Save the conversation to a JSON file
+        with open(filename, "w") as f:
+            json.dump(content, f, indent=4)
+
+    def load_from_json(self, filename: str):
+        # Load the conversation from a JSON file
+        with open(filename, "r") as f:
+            content = json.load(f)
+
+        return content
