@@ -24,7 +24,7 @@ guidance_rank = (
 )
 
 
-class AutoRTAgent(Agent):
+class AutoRTAgent:
     """
     AutoRTSwarm class represents an automated robot task system.
 
@@ -94,12 +94,15 @@ class AutoRTAgent(Agent):
             guidance_rank,
             FILTER_TASKS_SOP_PROMPT,
         )
+        
+        # LLM
+        llm = OpenAIChat(openai_api_key=openai_api_key)
+        
 
         # 1st LLM to visualize the object in the scene using GPT4V
-        self.vllm = GPT4VisionAPI(
+        self.vllm = Agent(
+            llm=llm,
             system_prompt=self.system_prompt_vllm,
-            openai_api_key=openai_api_key,
-            max_tokens=max_tokens,
         )
 
         # 2nd LLM to generate tasks for the robot to perform based on the objects in the scene
