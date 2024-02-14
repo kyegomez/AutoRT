@@ -1,0 +1,46 @@
+/Library/Frameworks/Python.framework/Error generating response: 'choices'
+Error generating response: 'choices'
+Warning: distutils Version classes are deprecated. Use packaging.version instead.
+  if LooseVersion(torch.__version__) < LooseVersion("1.0.0"):
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/thop/profile.py:68: DeprecationWarning: distutils Version classes are deprecated. Use packaging.version instead.
+  if LooseVersion(torch.__version__) >= LooseVersion("1.1.0"):
+distutils Version classes are deprecated. Use packaging.version instead.
+distutils Version classes are deprecated. Use packaging.version instead.
+Error generating response: 'choices'
+Error generating response: 'choices'
+Error generating response: 'choices'
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/swarms/structs/agent.py", line 522, in run
+    response = self.llm(
+               ^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/swarms/models/gpt4_vision_api.py", line 376, in __call__
+    raise error
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/swarms/models/gpt4_vision_api.py", line 361, in __call__
+    content = out["choices"][0]["message"]["content"]
+              ~~~^^^^^^^^^^^
+KeyError: 'choices'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/defalt/Desktop/Athena/research/AutoRT/example.py", line 18, in <module>
+    autort_swarm.run(
+  File "/Users/defalt/Desktop/Athena/research/AutoRT/autort/main.py", line 223, in run
+    out = self.network.run_many_agents(text, img, *args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/swarms/structs/swarm_net.py", line 188, in run_many_agents
+    return [
+           ^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/swarms/structs/swarm_net.py", line 189, in <listcomp>
+    agent.run(task, *args, **kwargs)
+  File "/Users/defalt/Desktop/Athena/research/AutoRT/autort/main.py", line 151, in run
+    vllm = self.vllm.run(text, img, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/swarms/structs/agent.py", line 557, in run
+    time.sleep(self.retry_interval)
+KeyboardInterrupt
+Implicitly cleaning up <TemporaryDirectory '/var/folders/zl/0vgkvtm52vjcs1skpnlqnssw0000gn/T/tmpwnz2mkqtwandb'>
+Implicitly cleaning up <TemporaryDirectory '/var/folders/zl/0vgkvtm52vjcs1skpnlqnssw0000gn/T/tmpjr_v40b8wandb-artifacts'>
+Implicitly cleaning up <TemporaryDirectory '/var/folders/zl/0vgkvtm52vjcs1skpnlqnssw0000gn/T/tmpcpop6k5pwandb-media'>
+Implicitly cleaning up <TemporaryDirectory '/var/folders/zl/0vgkvtm52vjcs1skpnlqnssw0000gn/T/tmpnnfam_xjwandb-media'>
+Implicitly cleaning up <TemporaryDirectory '/var/folders/zl/0vgkvtm52vjcs1skpnlqnssw0000gn/T/tmpc6ugrlkh'>

@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 import json
 from typing import Callable, List, Any
 
@@ -22,6 +24,13 @@ rank_prompt = (
     "Rank the tasks generated based on complexity and necessity of"
     " human assistance."
 )
+
+
+# Load the environment variables from the .env file
+load_dotenv()
+
+# Set the OpenAI API key
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
 
 class AutoRTAgent:
@@ -63,7 +72,7 @@ class AutoRTAgent:
 
     def __init__(
         self,
-        openai_api_key: str,
+        openai_api_key: str = openai_api_key,
         max_tokens: int = 1000,
         scene_prompt: str = scene_prompt,
         task_prompt: str = task_prompt,
@@ -111,7 +120,7 @@ class AutoRTAgent:
         # 2nd LLM to generate tasks for the robot to perform based on the objects in the scene
         self.tasks_generator = Agent(
             llm=llm,
-            sop_list=[self.FUSED_SYSTEM_PROMPT_WITH_SOP()],
+            sop_list=[self.system_prompt_llm],
             *args,
             **kwargs,
         )
@@ -139,7 +148,7 @@ class AutoRTAgent:
 
         """
         # 1st LLM to visualize the object in the scene using GPT4V
-        vllm = self.vllm.run(text, img)
+        vllm = self.vllm.run(text, img, *args, **kwargs)
 
         # 2nd LLM to generate tasks for the robot to perform based on the objects in the scene
         tasks = self.tasks_generator(vllm)
@@ -151,7 +160,7 @@ class AutoRTAgent:
         return self.robot_model(ranks, img)
 
 
-class AutoRTSwarm:
+class AutoRTSwarm(SwarmNetwork):
     """
     Represents a swarm of AutoRTSwarmAgents.
 
@@ -181,10 +190,12 @@ class AutoRTSwarm:
         *args,
         **kwargs,
     ):
+        super().__init__(agents=agents, *args, **kwargs)
         self.agents = agents
         self.datastore = datastore
         self.autosave = autosave
         self.conversation = Conversation(
+            system_prompt=None,
             time_enabled=True,
             save_filepath="autort_conversation.json",
             *args,
@@ -229,3 +240,40 @@ class AutoRTSwarm:
             content = json.load(f)
 
         return content
+
+    def __repr__(self):
+        return (
+            f"AutoRTSwarm(agents={self.agents},"
+            f" datastore={self.datastore})"
+        )
+
+    def __str__(self):
+        return f"AutoRTSwarm with {len(self.agents)} agents"
+
+    def run_single_agent(
+        self,
+        id: str = None,
+        task: str = None,
+        img: str = None,
+        *args,
+        **kwargs,
+    ):
+        """
+        Run a single agent in the swarm.
+
+        Args:
+            task (str): The task to be executed by the agent.
+            img (str): The image input for the agent.
+
+        Returns:
+            Any: The result of running the agent.
+        """
+        out = self.network.run_single_agent(
+            id,
+            task,
+            img,
+            *args,
+            **kwargs,
+        )
+
+        return out
