@@ -1,0 +1,388 @@
+{
+    "0": {
+        "file_id": 0,
+        "content": "/README.md",
+        "type": "filepath"
+    },
+    "1": {
+        "file_id": 0,
+        "content": "AutoRT is an open-source, scalable robotic orchestration system using Swarms and RT-1. It provides customizable task ranking, robot models, and a flexible AI interface for diverse applications.",
+        "type": "summary"
+    },
+    "2": {
+        "file_id": 0,
+        "content": "[![Multi-Modality](agorabanner.png)](https://discord.gg/qUtxnK2NMf)\n# AutoRT\n![AutoRTImage](autort.png)\nImplementation of AutoRT: \"AutoRT: Embodied Foundation Models for Large Scale Orchestration of Robotic Agents\". This repo will implement the multi agent system that transforms a scene into a list of ranked and priortized tasks for an robotic action model to execute. This is an very effective setup that I personally believe is the future for swarming robotic foundation models!\nThis project will be implemented using Swarms, for the various llms and use the official RT-1 as the robotic action model.\n[PAPER LINK](https://auto-rt.github.io/static/pdf/AutoRT.pdf)\n## Install\n`$ pip3 install autort-swarms`\n## Usage\n### Setting Up AutoRT\n1. Load your environment variables:\n```python\nfrom dotenv import load_dotenv\nload_dotenv()\n```\n2. Instantiate the AutoRT class:\n```python\nfrom autort import AutoRT\n# Load API keys from environment\nopenai_api_key = os.getenv(\"OPENAI_API_KEY\")\ngemini_api_key = os.getenv(\"GEMINI_API_KEY\")",
+        "type": "code",
+        "location": "/README.md:1-33"
+    },
+    "3": {
+        "file_id": 0,
+        "content": "This code is a README for the AutoRT project, which aims to implement a multi-agent system for large-scale orchestration of robotic agents. It uses Swarms and RT-1 as the action model. The README provides information on how to install and set up the AutoRT. It mentions loading environment variables and instantiating the AutoRT class with API keys.",
+        "type": "comment"
+    },
+    "4": {
+        "file_id": 0,
+        "content": "# Instantiate AutoRT with the necessary API keys\nautort_system = AutoRT(openai_api_key)\n```\n### Running AutoRT\nWith AutoRT set up, you can now run the system by providing it with text and image inputs:\n```python\ntext_input = \"There is a bottle on the table.\"\nimage_url = \"https://i.imgur.com/2qY9f8U.png\"\n# Run the AutoRT system\nresult = autort_system.run(text_input, image_url)\n```\n### Customizing AutoRT\nAutoRT allows for extensive customization of its components. Here’s how you can do it:\n#### Customizing Language Model Prompts\nAutoRT uses predefined prompts to guide the language models. To customize these prompts:\n```python\nfrom autort.prompts import FUSED_SYSTEM_PROMPT_WITH_SOP\ncustom_visualization_prompt = \"Custom SOP for visualizing objects.\"\nautort_system.system_prompt_vllm = FUSED_SYSTEM_PROMPT_WITH_SOP(\n    guidance=autort_system.guidance_vllm,\n    sop=custom_visualization_prompt,\n)\n```\n#### Customizing Task Generation\nYou can alter the guidance for task generation to focus on specific types of tasks:\n```python",
+        "type": "code",
+        "location": "/README.md:35-71"
+    },
+    "5": {
+        "file_id": 0,
+        "content": "Instantiate AutoRT with necessary API keys.",
+        "type": "comment"
+    },
+    "6": {
+        "file_id": 0,
+        "content": "custom_task_generation_guidance = \"Generate cleaning tasks for the robot.\"\nautort_system.guidance_llm = custom_task_generation_guidance\n```\n#### Customizing Task Ranking\nTo modify the criteria for task ranking:\n```python\ncustom_ranking_guidance = \"Rank tasks based on safety and duration.\"\nautort_system.guidance_rank = custom_ranking_guidance\n```\n#### Customizing the Robot Model\nAutoRT can be tailored to work with different robot models by providing a custom callable:\n```python\ndef custom_robot_model(task_descriptions, image):\n    # Custom logic to execute tasks\n    pass\nautort_system.robot_model = custom_robot_model\n```\n### Running Customized AutoRT\nAfter customization, invoke the `run` method with the new parameters:\n```python\n# Run the customized AutoRT system\ncustom_result = autort_system.run(text_input, image_url)\n```\n### Conclusion\nAutoRT offers a flexible and powerful interface to bridge the gap between AI language understanding and robotic task execution. By customizing its components, you can tailor t",
+        "type": "code",
+        "location": "/README.md:72-104"
+    },
+    "7": {
+        "file_id": 0,
+        "content": "Customizes task ranking, robot model for AutoRT; run customized system with new parameters. Offers flexible, powerful interface for AI-robot interaction.",
+        "type": "comment"
+    },
+    "8": {
+        "file_id": 0,
+        "content": "he system to a wide range of applications, from domestic robots to industrial automation systems. With this tutorial, you're now equipped to implement and customize AutoRT for your specific needs.\n## Citation\n```bibtext\n@inproceedings{\n    anonymous2023autort,\n    title={Auto{RT}: Embodied Foundation Models for Large Scale Orchestration of Robotic Agents},\n    author={Anonymous},\n    booktitle={Submitted to The Twelfth International Conference on Learning Representations},\n    year={2023},\n    url={https://openreview.net/forum?id=xVlcbh0poD},\n    note={under review}\n}\n```\n# License\nMIT",
+        "type": "code",
+        "location": "/README.md:104-123"
+    },
+    "9": {
+        "file_id": 0,
+        "content": "This code snippet is a README file that introduces AutoRT, an open-source system for orchestrating robotic agents. It explains how the system can be applied to various applications and provides instructions on how to implement and customize it for specific needs. The citation block gives credit to the original research paper, while the license indicates that the code is licensed under MIT.",
+        "type": "comment"
+    },
+    "10": {
+        "file_id": 1,
+        "content": "/autort/__init__.py",
+        "type": "filepath"
+    },
+    "11": {
+        "file_id": 1,
+        "content": "The code imports necessary modules and defines the __all__ list which includes all exported items from the module. This is a Python file that sets up the AutoRT class, as well as importing prompts for various tasks and visualizations.",
+        "type": "summary"
+    },
+    "12": {
+        "file_id": 1,
+        "content": "from autort.main import AutoRT\nfrom autort.prompts import (\n    VISUALIZE_OBJECT_PROMPT,\n    GENERATE_TASKS_PROMPT,\n    FUSED_SYSTEM_PROMPT_WITH_SOP,\n    FILTER_TASKS_SOP_PROMPT,\n)\n__all__ = [\n    \"AutoRT\",\n    \"VISUALIZE_OBJECT_PROMPT\",\n    \"GENERATE_TASKS_PROMPT\",\n    \"FUSED_SYSTEM_PROMPT_WITH_SOP\",\n    \"FILTER_TASKS_SOP_PROMPT\",\n]",
+        "type": "code",
+        "location": "/autort/__init__.py:1-16"
+    },
+    "13": {
+        "file_id": 1,
+        "content": "The code imports necessary modules and defines the __all__ list which includes all exported items from the module. This is a Python file that sets up the AutoRT class, as well as importing prompts for various tasks and visualizations.",
+        "type": "comment"
+    },
+    "14": {
+        "file_id": 2,
+        "content": "/autort/main.py",
+        "type": "filepath"
+    },
+    "15": {
+        "file_id": 2,
+        "content": "The code implements AutoRT, an automated robot task system using OpenAI API and language models for visualization, task generation, and complexity ranking. The robot model executes tasks with image inputs.",
+        "type": "summary"
+    },
+    "16": {
+        "file_id": 2,
+        "content": "import os\nfrom swarms import GPT4VisionAPI, OpenAIChat\nfrom autort.prompts import (\n    VISUALIZE_OBJECT_PROMPT,\n    GENERATE_TASKS_PROMPT,\n    FUSED_SYSTEM_PROMPT_WITH_SOP,\n    FILTER_TASKS_SOP_PROMPT,\n)\nfrom dotenv import load_dotenv\nfrom typing import Callable\nload_dotenv()\nopenai_api_key = os.getenv(\"OPENAI_API_KEY\")\ngemini_api_key = os.getenv(\"GENIMI_API_KEY\")\nmax_tokens = 1000\nguidance_vllm = \"Effectively visualize the object in the scene.\"\nguidance_llm = \"Generate tasks for the robot to perform.\"\nguidance_rank = \"Rank the tasks generated based on complexity and necessity of human assistance.\"\nclass AutoRT:\n    \"\"\"\n    AutoRT class represents an automated robot task system.\n    Args:\n        openai_api_key (str): The API key for OpenAI.\n        max_tokens (int, optional): The maximum number of tokens to use for text generation. Defaults to 1000.\n        guidance_vllm (str, optional): The guidance for the first language model. Defaults to guidance_vllm.\n        guidance_llm (str, optional): The guidance for the second language model. Defaults to guidance_llm.",
+        "type": "code",
+        "location": "/autort/main.py:1-32"
+    },
+    "17": {
+        "file_id": 2,
+        "content": "The code imports necessary modules and defines a class, AutoRT, for an automated robot task system. The class takes arguments like OpenAI API key, maximum tokens, and guidance for language models. It uses VISUALIZE_OBJECT_PROMPT, GENERATE_TASKS_PROMPT, FUSED_SYSTEM_PROMPT_WITH_SOP, and FILTER_TASKS_SOP_PROMPT from the prompts module.",
+        "type": "comment"
+    },
+    "18": {
+        "file_id": 2,
+        "content": "        guidance_rank (str, optional): The guidance for the third language model. Defaults to guidance_rank.\n        robot_model (Callable, optional): The robot model to execute the tasks. Defaults to None.\n    Attributes:\n        openai_api_key (str): The API key for OpenAI.\n        max_tokens (int): The maximum number of tokens to use for text generation.\n        guidance_vllm (str): The guidance for the first language model.\n        guidance_llm (str): The guidance for the second language model.\n        guidance_rank (str): The guidance for the third language model.\n        robot_model (Callable): The robot model to execute the tasks.\n        system_prompt_vllm (FUSED_SYSTEM_PROMPT_WITH_SOP): The system prompt for the first language model.\n        system_prompt_llm (FUSED_SYSTEM_PROMPT_WITH_SOP): The system prompt for the second language model.\n        system_prompt_rank (FUSED_SYSTEM_PROMPT_WITH_SOP): The system prompt for the third language model.\n        vllm (GPT4VisionAPI): The first language model to visualize the object in the scene.",
+        "type": "code",
+        "location": "/autort/main.py:33-46"
+    },
+    "19": {
+        "file_id": 2,
+        "content": "The code defines a class with OpenAI API key, maximum tokens for text generation, and guidance prompts for three language models. It also includes a robot model to execute tasks and system prompts for the first two language models, as well as an initialized GPT4VisionAPI object as the first language model.",
+        "type": "comment"
+    },
+    "20": {
+        "file_id": 2,
+        "content": "        llm (OpenAIChat): The second language model to generate tasks for the robot.\n        filter_llm (OpenAIChat): The third language model to rank the tasks generated by the second language model.\n    Methods:\n        run(text: str, img: str, *args, **kwargs) -> Any:\n            Runs the AutoRT system to execute tasks based on the given text and image.\n    Examples:\n        >>> from autort import AutoRT\n        >>> autort = AutoRT(openai_api_key, max_tokens=1000)\n        >>> autort.run(\"There is a bottle on the table.\", \"https://i.imgur.com/2qY9f8U.png\")\n    \"\"\"\n    def __init__(\n        self,\n        openai_api_key: str,\n        max_tokens: int = 1000,\n        guidance_vllm: str = guidance_vllm,\n        guidance_llm: str = guidance_llm,\n        guidance_rank: str = guidance_rank,\n        robot_model: Callable = None,\n        *args,\n        **kwargs\n    ):\n        self.openai_api_key = openai_api_key\n        self.max_tokens = max_tokens\n        self.guidance_vllm = guidance_vllm\n        self.guidance_llm = guidance_llm",
+        "type": "code",
+        "location": "/autort/main.py:47-75"
+    },
+    "21": {
+        "file_id": 2,
+        "content": "This code defines a class called \"AutoRT\" which is an implementation of the AutoRT system. It takes parameters such as API key, max tokens, and language models for guidance. The \"run\" method is used to execute tasks based on text and image inputs.",
+        "type": "comment"
+    },
+    "22": {
+        "file_id": 2,
+        "content": "        self.guidance_rank = guidance_rank\n        self.robot_model = robot_model\n        self.system_prompt_vllm = FUSED_SYSTEM_PROMPT_WITH_SOP(\n            guidance=guidance_vllm,\n            sop=VISUALIZE_OBJECT_PROMPT,\n        )\n        self.system_prompt_llm = FUSED_SYSTEM_PROMPT_WITH_SOP(\n            guidance=guidance_llm,\n            sop=GENERATE_TASKS_PROMPT,\n        )\n        self.system_prompt_rank = FUSED_SYSTEM_PROMPT_WITH_SOP(\n            guidance_rank,\n            FILTER_TASKS_SOP_PROMPT,\n        )\n        # 1st LLM to visualize the object in the scene using GPT4V\n        self.vllm = GPT4VisionAPI(\n            system_prompt=self.system_prompt_vllm,\n            openai_api_key=openai_api_key,\n            max_tokens=max_tokens,\n        )\n        # 2nd LLM to generate tasks for the robot to perform based on the objects in the scene\n        self.tasks_generator = OpenAIChat(\n            openai_api_key=openai_api_key,\n            max_tokens=max_tokens,\n            prefix_messages=[FUSED_SYSTEM_PROMPT_WITH_SOP()],",
+        "type": "code",
+        "location": "/autort/main.py:76-107"
+    },
+    "23": {
+        "file_id": 2,
+        "content": "This code initializes various components for the AutoRT system. It sets the guidance_rank, robot_model, and defines fused prompts for visualization and tasks generation. The code then creates two LLMs (Language Models): GPT4V for object visualization, and OpenAIChat for task generation based on objects in the scene. It also sets the openai_api_key and max_tokens for both models.",
+        "type": "comment"
+    },
+    "24": {
+        "file_id": 2,
+        "content": "        )\n        # 3rd LLM to rank the tasks generated by the 2nd LLM based on complexity and necessity of human assistance\n        self.task_filter = OpenAIChat(\n            openai_api_key=openai_api_key,\n            max_tokens=max_tokens,\n            prefix_messages=[self.system_prompt_rank],\n        )\n    def run(self, text: str, img: str, *args, **kwargs):\n        \"\"\"\n        Runs the AutoRT system to execute tasks based on the given text and image.\n        Args:\n            text (str): The text input for the system.\n            img (str): The image input for the system.\n            *args: Additional positional arguments.\n            **kwargs: Additional keyword arguments.\n        Returns:\n            Any: The result of executing the robot model on the ranked tasks.\n        \"\"\"\n        # 1st LLM to visualize the object in the scene using GPT4V\n        vllm = self.vllm.run(text, img)\n        # 2nd LLM to generate tasks for the robot to perform based on the objects in the scene\n        tasks = self.tasks_generator(vllm)",
+        "type": "code",
+        "location": "/autort/main.py:108-136"
+    },
+    "25": {
+        "file_id": 2,
+        "content": "This code snippet contains a Python class with a method \"run\" that executes an AutoRT system. It involves three language models (LLMs): 1st LLM for visualization, 2nd LLM for generating tasks, and a 3rd LLM to rank these generated tasks based on complexity and human assistance need. The \"vllm\" variable stores the result of running the 1st LLM on input text and image. The \"tasks\" variable holds the tasks generated by the 2nd LLM.",
+        "type": "comment"
+    },
+    "26": {
+        "file_id": 2,
+        "content": "        # 3rd LLM to rank the tasks generated by the 2nd LLM based on complexity and necessity of human assistance\n        ranks = self.task_filter(tasks)\n        # Robot model to execute the tasks\n        return self.robot_model(ranks, img)",
+        "type": "code",
+        "location": "/autort/main.py:138-142"
+    },
+    "27": {
+        "file_id": 2,
+        "content": "The code snippet initializes a 3rd LLM to rank tasks generated by the 2nd LLM based on complexity and human assistance necessity. It then returns the robot model's execution of these ranked tasks using images as input.",
+        "type": "comment"
+    },
+    "28": {
+        "file_id": 3,
+        "content": "/autort/prompts.py",
+        "type": "filepath"
+    },
+    "29": {
+        "file_id": 3,
+        "content": "This code introduces a visual analysis framework for robotic operations, focusing on object identification and description while providing adaptable multi-shot tasks with safety measures. It also includes the `FOUNDATIONAL_RULES` function to establish robot rules and examples of tasks such as inspection, welding, counting, and circuit repair.",
+        "type": "summary"
+    },
+    "30": {
+        "file_id": 3,
+        "content": "VISUALIZE_OBJECT_PROMPT = \"\"\"\n\"Your task is to analyze and describe the visual scene presented to you. Pay attention to the following key elements:\n1. **Identify All Major and Minor Objects:** Describe each object in the scene, including their size, shape, color, and any notable features. \n2. **Spatial Relationships:** Explain where each object is located in relation to others. Are they overlapping, adjacent to, or distant from one another? \n3. **Colors and Textures:** Note the colors and textures present in the scene. Are there any patterns or unique visual elements?\n4. **Lighting and Shadows:** Observe the source of light, its intensity, and direction. How do the lighting and shadows affect the appearance of objects?\n5. **Any Motion or Activity:** If there is any movement or action happening in the scene, describe it in detail. What is moving, and how?\n6. **Atmosphere and Mood:** If applicable, comment on the overall atmosphere or mood conveyed by the scene. Is it cheerful, gloomy, chaotic, serene?",
+        "type": "code",
+        "location": "/autort/prompts.py:1-8"
+    },
+    "31": {
+        "file_id": 3,
+        "content": "The code snippet defines a multi-step visual analysis prompt that requires the user to identify and describe major and minor objects, their spatial relationships, colors and textures, lighting and shadows, motion or activity, and overall atmosphere or mood in a scene.",
+        "type": "comment"
+    },
+    "32": {
+        "file_id": 3,
+        "content": "7. **Background and Context:** Provide information about the background and any contextual elements that give a sense of place or time.\nYour description should be thorough and precise, enabling a clear understanding of the scene for someone who cannot see it. Think of your description as painting a picture with words.\"\nThis prompt guides the multimodal model to cover all critical aspects of a scene, ensuring a comprehensive description for the vision model.\n\"\"\"\nGENERATE_TASKS_PROMPT = \"\"\"\nTo create an effective introduction for the multi-shot instruction prompt designed for a language model (LLM) to generate tasks for a robot, the introduction should set the context, define the purpose, and outline the structure of the tasks. Here's an example introduction:\nIntroduction to Robot Task Generation Using Language Model\nWelcome to the task generation module for robotic operations. This guide is designed to instruct a language model in generating specific tasks for a robot to execute. The goal is t",
+        "type": "code",
+        "location": "/autort/prompts.py:9-22"
+    },
+    "33": {
+        "file_id": 3,
+        "content": "This code provides an introduction to the task generation module for robotic operations, explaining its purpose and structure, guiding a language model (LLM) to generate tasks for a robot. The description is thorough and precise, enabling clear understanding of the scene without visual aid.",
+        "type": "comment"
+    },
+    "34": {
+        "file_id": 3,
+        "content": "o create clear, actionable, and safe directives that a robot can understand and carry out efficiently in various environments.\nEach task is structured in a multi-shot format, providing a comprehensive blueprint for the robot's operation. This format includes:\n[Task][Number][Task Name]: A unique identifier for each task, facilitating easy reference and organization.\nObjective: A brief description of the overall goal or purpose of the task.\nSteps: A detailed, step-by-step guide that the robot will follow to complete the task.\nSafety Measures: Critical considerations and precautions to ensure the robot's operation is safe for both the robot and its surroundings.\nThese tasks are designed to be adaptable and can be customized according to different robotic capabilities and operational requirements. The instructions are formulated to be easily parsed by advanced language models and translated into executable commands for robots.\n---------------EXAMPLES ----------\n[Task][1][Pick and Place Objects]\nObj",
+        "type": "code",
+        "location": "/autort/prompts.py:22-35"
+    },
+    "35": {
+        "file_id": 3,
+        "content": "This code defines a format for creating robotic tasks in a multi-shot structure, with unique identifiers, objectives, steps, and safety measures. These tasks are adaptable and can be customized based on robot capabilities, while being easily parsed by language models and translated into executable commands.",
+        "type": "comment"
+    },
+    "36": {
+        "file_id": 3,
+        "content": "ective: The robot is required to pick up specific objects from a designated area and place them in a predefined location.\nSteps:\nIdentify the object to be picked up using visual or sensor-based recognition.\nNavigate to the object's location.\nUse the robotic arm to grasp the object securely.\nTransport the object to the designated drop-off location.\nGently release the object at the drop-off point.\nSafety Measures: Ensure that the grip is firm but not damaging to the object. Avoid collisions with other objects and people during navigation.\n[Task][2][Environmental Monitoring]\nObjective: Continuously monitor environmental parameters like temperature, humidity, and air quality within a specified area.\nSteps:\nNavigate through the area following a predefined path.\nUse onboard sensors to record environmental data.\nTransmit the data to the central monitoring system at regular intervals.\nAlert the central system if any parameter goes beyond the set thresholds.\nSafety Measures: The robot should maintain a safe distance from obstacles and avoid restricted zones.",
+        "type": "code",
+        "location": "/autort/prompts.py:35-51"
+    },
+    "37": {
+        "file_id": 3,
+        "content": "Code snippet describes two tasks for a robot: picking up specific objects and transporting them, as well as monitoring environmental parameters in a designated area. It outlines the necessary steps and safety measures to be taken in both scenarios.",
+        "type": "comment"
+    },
+    "38": {
+        "file_id": 3,
+        "content": "[Task][3][Surveillance and Security]\nObjective: Perform routine surveillance rounds in a designated area to ensure security.\nSteps:\nPatrol the area following a set route.\nUse cameras and sensors to detect unusual activities or intrusions.\nRecord and send real-time footage to the security control room.\nIf an intrusion is detected, sound an alarm and notify the control room.\nSafety Measures: Avoid direct confrontation and maintain a safe distance from any identified threat.\n\"\"\"\ndef FOUNDATIONAL_RULES_RPOMPT(\n    guidance: str = \"Do not interact with humans or animals.\",\n):\n    FOUNDATIONAL_RULES = f\"\"\"\n    The following are rules you must follow to successfully fulfill your purpose \n    of automating tasks. These rules are divided into four categories: foundational,\n    safety, embodiment, and guidance. \n    ------------- RULES -----------------\n    FOUNDATIONAL RULES =\n    F1. A robot may not injure a human being.\n    F2. A robot must protect its own existence as long as such protection does not conflict with F1.",
+        "type": "code",
+        "location": "/autort/prompts.py:52-76"
+    },
+    "39": {
+        "file_id": 3,
+        "content": "This code defines a function that prompts the user with foundational rules they must follow, including not interacting with humans or animals. It also includes an objective and steps for surveillance rounds to ensure security, along with safety measures to avoid confrontation.",
+        "type": "comment"
+    },
+    "40": {
+        "file_id": 3,
+        "content": "    F3. A robot must obey orders given it by human beings except where such orders would\n    conflict with F1 or F2.\n    SAFETY RULES =\n    S1. This robot shall not attempt tasks involving humans, animals or living things.\n    S2. This robot shall not interact with objects that are sharp, such as a knife.\n    S3. This robot shall not interact with objects that are electrical, such as a computer or tablet.\n    EMBODIMENT RULES =\n    E1. This robot shall not attempt to lift objects that are heavier than a book. For example, it\n    cannot move a couch but it can push plastic chairs.\n    E2. This robot only has one arm, and thus cannot perform tasks requiring two arms. For\n    example, it cannot open a bottle.\n    GUIDANCE RULES =\n    G1. The human command, which the robot should follow if given: {guidance}\n    \"\"\"\n    return FOUNDATIONAL_RULES\ndef FUSED_SYSTEM_PROMPT_WITH_SOP(guidance: str, sop: str):\n    # Fused together the rules and the SOP\n    return FOUNDATIONAL_RULES_RPOMPT(guidance) + sop\nFILTER_TASKS_SOP_PROMPT = \"\"\"",
+        "type": "code",
+        "location": "/autort/prompts.py:77-102"
+    },
+    "41": {
+        "file_id": 3,
+        "content": "This code defines a set of rules for a robot, categorized into safety, embodiment, and guidance rules. The function `FOUNDATIONAL_RULES` returns these rules as strings. The `FUSED_SYSTEM_PROMPT_WITH_SOP` function combines the robot's foundation rules with user-provided guidance (`guidance`) and a SOP (Standard Operating Procedure) string (`sop`) to provide a complete prompt for the robot.",
+        "type": "comment"
+    },
+    "42": {
+        "file_id": 3,
+        "content": "This SOP is designed to guide the language model in generating and categorizing tasks for robotic execution. \nThe tasks are evaluated based on their complexity and the necessity of human assistance. \nThe system aims to autonomously filter and rank tasks, identifying which can be \nperformed independently by the robot and which require human intervention.\nInstruction Format:\nEach task should be formatted as follows:\n[Step][Task Name][Human Needed: Yes/No]\nProcess:\nTask Generation: The model will generate a list of potential tasks for the robot.\nSelf-Reflection Filtering: Each task is evaluated for feasibility and safety. The model will categorize tasks into those that require human assistance and those that do not.\nTask Sampling: A valid task is selected from the filtered list for the robot to attempt.\nExecution and Review: The robot attempts the task. If human assistance is required, the task is paused until assistance is provided.\n########  Examples #########\n[Step][1][Visual Inspection of Machinery][Human Needed: No]",
+        "type": "code",
+        "location": "/autort/prompts.py:105-125"
+    },
+    "43": {
+        "file_id": 3,
+        "content": "This code outlines a step-by-step process for generating, filtering, and categorizing tasks for robotic execution. It involves formatting tasks with a specified instruction format and using a self-reflection filtering technique to evaluate task feasibility and safety. Tasks are then sampled from the filtered list and executed by the robot.",
+        "type": "comment"
+    },
+    "44": {
+        "file_id": 3,
+        "content": "Task: The robot will inspect machinery for any signs of wear or damage using its visual sensors.\nSelf-Reflection Filter: The task is within the robot's capability and does not require human intervention.\n[Step][2][Precision Welding of Components][Human Needed: Yes]\nTask: Perform precision welding on specific components in the assembly line.\nSelf-Reflection Filter: Task requires human guidance for setup and quality control, due to the high precision and risk involved.\n[Step][3][Inventory Stocktaking][Human Needed: No]\nTask: Count and organize inventory in the warehouse.\nSelf-Reflection Filter: The task is straightforward and can be autonomously completed by the robot.\n[Step][4][Complex Circuitry Repair][Human Needed: Yes]\nTask: Repair complex circuitry in electronic equipment.\nSelf-Reflection Filter: Due to the intricate nature of the task, human expertise is required for guidance and verification.\n\"\"\"",
+        "type": "code",
+        "location": "/autort/prompts.py:127-143"
+    },
+    "45": {
+        "file_id": 3,
+        "content": "The code represents a series of tasks that the robot can perform. Task 1 involves inspecting machinery for any signs of wear or damage, while Task 2 requires precision welding on specific components in the assembly line with human guidance due to high precision and risk involved. Task 3 is a straightforward task that involves counting and organizing inventory in the warehouse without human intervention. Finally, Task 4 deals with repairing complex circuitry in electronic equipment, which requires human expertise for guidance and verification due to its intricate nature.",
+        "type": "comment"
+    },
+    "46": {
+        "file_id": 4,
+        "content": "/pyproject.toml",
+        "type": "filepath"
+    },
+    "47": {
+        "file_id": 4,
+        "content": "This code snippet is a `pyproject.toml` configuration file for the AutoRT project, specifying build system requirements and dependencies like poetry-core and python version, along with information about the project and tool versions/configurations for various packages.",
+        "type": "summary"
+    },
+    "48": {
+        "file_id": 4,
+        "content": "[build-system]\nrequires = [\"poetry-core>=1.0.0\"]\nbuild-backend = \"poetry.core.masonry.api\"\n[tool.poetry]\nname = \"autort-swarms\"\nversion = \"0.0.3\"\ndescription = \"AutoRT - Pytorch\"\nlicense = \"MIT\"\nauthors = [\"Kye Gomez <kye@apac.ai>\"]\nhomepage = \"https://github.com/kyegomez/AutoRT\"\ndocumentation = \"https://github.com/kyegomez/AutoRT\"  # Add this if you have documentation.\nreadme = \"README.md\"  # Assuming you have a README.md\nrepository = \"https://github.com/kyegomez/AutoRT\"\nkeywords = [\"artificial intelligence\", \"deep learning\", \"optimizers\", \"Prompt Engineering\"]\nclassifiers = [\n    \"Development Status :: 4 - Beta\",\n    \"Intended Audience :: Developers\",\n    \"Topic :: Scientific/Engineering :: Artificial Intelligence\",\n    \"License :: OSI Approved :: MIT License\",\n    \"Programming Language :: Python :: 3.9\"\n]\npackages = [\n    { include = \"autort\" },\n    { include = \"autort/**/*.py\" },\n]\n[tool.poetry.dependencies]\npython = \"^3.6\"\nswarms = \"*\"\nzetascale = \"*\"\n[tool.poetry.group.lint.dependencies]\nruff = \"^0.1.6\"\ntypes-toml = \"^0.10.8.1\"",
+        "type": "code",
+        "location": "/pyproject.toml:1-39"
+    },
+    "49": {
+        "file_id": 4,
+        "content": "This code snippet is a `pyproject.toml` configuration file for the AutoRT project, specifying build system requirements and dependencies like poetry-core and python version. It also includes information about the project such as name, version, description, authors, license, homepage, repository, keywords, and classifiers. The packages section lists the included packages, and the dependencies section lists required packages for linting.",
+        "type": "comment"
+    },
+    "50": {
+        "file_id": 4,
+        "content": "types-redis = \"^4.3.21.6\"\ntypes-pytz = \"^2023.3.0.0\"\nblack = \"^23.1.0\"\ntypes-chardet = \"^5.0.4.6\"\nmypy-protobuf = \"^3.0.0\"\n[tool.autopep8]\nmax_line_length = 80\nignore = \"E501,W6\"  # or [\"E501\", \"W6\"]\nin-place = true\nrecursive = true\naggressive = 3\n[tool.ruff]\nline-length = 70\n[tool.black]\nline-length = 70\ntarget-version = ['py38']\npreview = true",
+        "type": "code",
+        "location": "/pyproject.toml:40-61"
+    },
+    "51": {
+        "file_id": 4,
+        "content": "This code specifies the versions and configurations for various tools in the AutoRT project. It sets dependencies for types-redis, types-pytz, black, types-chardet, and mypy-protobuf. It also configures autopep8, ruff, and black to enforce line length and other formatting rules.",
+        "type": "comment"
+    },
+    "52": {
+        "file_id": 5,
+        "content": "/requirements.txt",
+        "type": "filepath"
+    },
+    "53": {
+        "file_id": 5,
+        "content": "The code snippet is specifying the required Python packages for a project. Torch is a popular deep learning library, ZetaScale provides distributed data processing capabilities, and Swarms offers decentralized computing functionality.",
+        "type": "summary"
+    },
+    "54": {
+        "file_id": 5,
+        "content": "torch\nzetascale\nswarms",
+        "type": "code",
+        "location": "/requirements.txt:1-3"
+    },
+    "55": {
+        "file_id": 5,
+        "content": "The code snippet is specifying the required Python packages for a project. Torch is a popular deep learning library, ZetaScale provides distributed data processing capabilities, and Swarms offers decentralized computing functionality.",
+        "type": "comment"
+    },
+    "56": {
+        "file_id": 6,
+        "content": "/scripts/code_quality.sh",
+        "type": "filepath"
+    },
+    "57": {
+        "file_id": 6,
+        "content": "Navigates to code directory, runs autopep8 with aggressive settings, black for formatting, ruff for linting, and YAPF for Google style.",
+        "type": "summary"
+    },
+    "58": {
+        "file_id": 6,
+        "content": "#!/bin/bash\n# Navigate to the directory containing the 'package' folder\n# cd /path/to/your/code/directory\n# Run autopep8 with max aggressiveness (-aaa) and in-place modification (-i)\n# on all Python files (*.py) under the 'package' directory.\nautopep8 --in-place --aggressive --aggressive --recursive --experimental --list-fixes package/\n# Run black with default settings, since black does not have an aggressiveness level.\n# Black will format all Python files it finds in the 'package' directory.\nblack --experimental-string-processing package/\n# Run ruff on the 'package' directory.\n# Add any additional flags if needed according to your version of ruff.\nruff --unsafe_fix\n# YAPF\nyapf --recursive --in-place --verbose --style=google --parallel package",
+        "type": "code",
+        "location": "/scripts/code_quality.sh:1-19"
+    },
+    "59": {
+        "file_id": 6,
+        "content": "Navigates to code directory, runs autopep8 with aggressive settings, black for formatting, ruff for linting, and YAPF for Google style.",
+        "type": "comment"
+    },
+    "60": {
+        "file_id": 7,
+        "content": "/scripts/merge_all_prs.sh",
+        "type": "filepath"
+    },
+    "61": {
+        "file_id": 7,
+        "content": "This Bash script checks if it's inside a Git repo, fetches open PRs, and merges them using \"gh pr merge\" command from GitHub CLI. It handles error messages for failed merges and notifies the completion of processing.",
+        "type": "summary"
+    },
+    "62": {
+        "file_id": 7,
+        "content": "#!/bin/bash\n# Check if we are inside a Git repository\nif ! git rev-parse --git-dir > /dev/null 2>&1; then\n    echo \"Error: Must be run inside a Git repository.\"\n    exit 1\nfi\n# Fetch all open pull requests\necho \"Fetching open PRs...\"\nprs=$(gh pr list --state open --json number --jq '.[].number')\n# Check if there are PRs to merge\nif [ -z \"$prs\" ]; then\n    echo \"No open PRs to merge.\"\n    exit 0\nfi\necho \"Found PRs: $prs\"\n# Loop through each pull request number and merge it\nfor pr in $prs; do\n    echo \"Attempting to merge PR #$pr\"\n    merge_output=$(gh pr merge $pr --auto --merge)\n    merge_status=$?\n    if [ $merge_status -ne 0 ]; then\n        echo \"Failed to merge PR #$pr. Error: $merge_output\"\n    else\n        echo \"Successfully merged PR #$pr\"\n    fi\ndone\necho \"Processing complete.\"",
+        "type": "code",
+        "location": "/scripts/merge_all_prs.sh:1-33"
+    },
+    "63": {
+        "file_id": 7,
+        "content": "This Bash script checks if it's inside a Git repo, fetches open PRs, and merges them using \"gh pr merge\" command from GitHub CLI. It handles error messages for failed merges and notifies the completion of processing.",
+        "type": "comment"
+    },
+    "64": {
+        "file_id": 8,
+        "content": "/scripts/test_name.sh",
+        "type": "filepath"
+    },
+    "65": {
+        "file_id": 8,
+        "content": "This script searches for Python files in the \"tests\" directory and renames them by appending 'test_' at the beginning if their original name doesn't start with 'test_'.",
+        "type": "summary"
+    },
+    "66": {
+        "file_id": 8,
+        "content": "find ./tests -name \"*.py\" -type f | while read file\ndo\n  filename=$(basename \"$file\")\n  dir=$(dirname \"$file\")\n  if [[ $filename != test_* ]]; then\n    mv \"$file\" \"$dir/test_$filename\"\n  fi\ndone",
+        "type": "code",
+        "location": "/scripts/test_name.sh:1-8"
+    },
+    "67": {
+        "file_id": 8,
+        "content": "This script searches for Python files in the \"tests\" directory and renames them by appending 'test_' at the beginning if their original name doesn't start with 'test_'.",
+        "type": "comment"
+    },
+    "68": {
+        "file_id": 9,
+        "content": "/scripts/tests.sh",
+        "type": "filepath"
+    },
+    "69": {
+        "file_id": 9,
+        "content": "This code is running a Python unit test suite. It uses the 'find' command to locate any file named '.py' within the './tests' directory and executes the 'pytest' command on each found file, running tests for that specific file.",
+        "type": "summary"
+    },
+    "70": {
+        "file_id": 9,
+        "content": "find ./tests -name '*.py' -exec pytest {} \\;",
+        "type": "code",
+        "location": "/scripts/tests.sh:1-1"
+    },
+    "71": {
+        "file_id": 9,
+        "content": "This code is running a Python unit test suite. It uses the 'find' command to locate any file named '.py' within the './tests' directory and executes the 'pytest' command on each found file, running tests for that specific file.",
+        "type": "comment"
+    }
+}

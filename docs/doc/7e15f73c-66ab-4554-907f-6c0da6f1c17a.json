@@ -1,0 +1,10 @@
+{
+    "summary": "This code is running a Python unit test suite. It uses the 'find' command to locate any file named '.py' within the './tests' directory and executes the 'pytest' command on each found file, running tests for that specific file.",
+    "details": [
+        {
+            "comment": "This code is running a Python unit test suite. It uses the 'find' command to locate any file named '.py' within the './tests' directory and executes the 'pytest' command on each found file, running tests for that specific file.",
+            "location": "\"/media/root/Prima/works/AutoRT/docs/src/scripts/tests.sh\":0-0",
+            "content": "find ./tests -name '*.py' -exec pytest {} \\;"
+        }
+    ]
+}

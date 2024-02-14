@@ -1,0 +1,10 @@
+{
+    "summary": "Navigates to code directory, runs autopep8 with aggressive settings, black for formatting, ruff for linting, and YAPF for Google style.",
+    "details": [
+        {
+            "comment": "Navigates to code directory, runs autopep8 with aggressive settings, black for formatting, ruff for linting, and YAPF for Google style.",
+            "location": "\"/media/root/Prima/works/AutoRT/docs/src/scripts/code_quality.sh\":0-18",
+            "content": "#!/bin/bash\n# Navigate to the directory containing the 'package' folder\n# cd /path/to/your/code/directory\n# Run autopep8 with max aggressiveness (-aaa) and in-place modification (-i)\n# on all Python files (*.py) under the 'package' directory.\nautopep8 --in-place --aggressive --aggressive --recursive --experimental --list-fixes package/\n# Run black with default settings, since black does not have an aggressiveness level.\n# Black will format all Python files it finds in the 'package' directory.\nblack --experimental-string-processing package/\n# Run ruff on the 'package' directory.\n# Add any additional flags if needed according to your version of ruff.\nruff --unsafe_fix\n# YAPF\nyapf --recursive --in-place --verbose --style=google --parallel package"
+        }
+    ]
+}

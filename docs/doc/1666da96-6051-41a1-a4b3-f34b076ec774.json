@@ -1,0 +1,10 @@
+{
+    "summary": "The code snippet is specifying the required Python packages for a project. Torch is a popular deep learning library, ZetaScale provides distributed data processing capabilities, and Swarms offers decentralized computing functionality.",
+    "details": [
+        {
+            "comment": "The code snippet is specifying the required Python packages for a project. Torch is a popular deep learning library, ZetaScale provides distributed data processing capabilities, and Swarms offers decentralized computing functionality.",
+            "location": "\"/media/root/Prima/works/AutoRT/docs/src/requirements.txt\":0-2",
+            "content": "torch\nzetascale\nswarms"
+        }
+    ]
+}
